@@ -10,23 +10,11 @@ public class WindowTests
 	[SetUp]
 	public void Setup()
 	{
-		_window = new Window("Jiayi UI Tests", new Vector2(800, 600));
-		Run();
-	}
-
-	private void Run()
-	{
-		// run on another thread to prevent blocking the main thread
 		Task.Run(() =>
 		{
+			_window = new Window("Jiayi UI Tests", new Vector2(800, 600));
 			Application.Current.Run();
 		});
-	}
-	
-	[TearDown]
-	public void TearDown()
-	{
-		Application.Current.Exit();
 	}
 
 	[Test]
@@ -48,5 +36,12 @@ public class WindowTests
 	{
 		_window.Title = "Hello, World!";
 		Assert.That(_window.Title, Is.EqualTo("Hello, World!"));
+	}
+	
+	// literally just run the window for a bit
+	[Test]
+	public void RunWindow()
+	{
+		Thread.Sleep(5000);
 	}
 }

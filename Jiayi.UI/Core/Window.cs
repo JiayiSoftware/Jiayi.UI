@@ -16,6 +16,7 @@ public unsafe class Window
 {
 	public nint Handle { get; }
 	public Graphics Graphics { get; } = new();
+	public bool IsMainWindow => Application.Current.MainWindow == this;
 	
 	// cool properties
 	public Vector2 Position

@@ -59,6 +59,7 @@ public unsafe class Application
 			throw new InvalidOperationException("No main window is set. You must create a window before calling Run.");
 		}
 		
+		MainWindow.Show();
 		OnStartup?.Invoke();
 		
 		MSG msg = default;
