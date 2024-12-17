@@ -50,7 +50,8 @@ public unsafe class Window
 				GetWindowText((HWND)Handle, ptr, length + 1);
 			}
 			
-			return new string(title);
+			var t = new string(title);
+			return t.Substring(0, t.Length - 1); // remove null-terminator
 		}
 		set => SetWindowText((HWND)Handle, value);
 	}

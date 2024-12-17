@@ -37,6 +37,7 @@ public unsafe class Application
 		{
 			var windowClass = new WNDCLASSEXW
 			{
+				cbSize = (uint)Unsafe.SizeOf<WNDCLASSEXW>(),
 				style = CS_HREDRAW | CS_VREDRAW,
 				lpfnWndProc = &WindowProc,
 				hInstance = HInstance,
@@ -72,6 +73,8 @@ public unsafe class Application
 		
 		OnExit?.Invoke();
 	}
+	
+	public void Exit() => PostQuitMessage(0);
 	
 	[UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
 	private static LRESULT WindowProc(HWND hWnd, uint msg, WPARAM wParam, LPARAM lParam)
