@@ -1,8 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jiayi.UI", "Jiayi.UI\Jiayi.UI.csproj", "{21C928FC-8CDD-420A-8227-1383E1741B52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jiayi.UI", "src\Jiayi.UI\Jiayi.UI.csproj", "{21C928FC-8CDD-420A-8227-1383E1741B52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jiayi.UI.Tests", "Jiayi.UI.Tests\Jiayi.UI.Tests.csproj", "{E40DF8BB-674D-4937-9E05-6272FA7A5B43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jiayi.UI.Tests", "src\Jiayi.UI.Tests\Jiayi.UI.Tests.csproj", "{E40DF8BB-674D-4937-9E05-6272FA7A5B43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicWindow", "examples\BasicWindow\BasicWindow.csproj", "{A128BF55-2A39-4F11-9B17-15093F0FDFAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40AC710F-5FFB-4AF6-B72F-3A86F4ECC843}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{12087DD0-4E09-41B2-A0B1-DFF6F8DF9920}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +24,14 @@ Global
 		{E40DF8BB-674D-4937-9E05-6272FA7A5B43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E40DF8BB-674D-4937-9E05-6272FA7A5B43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E40DF8BB-674D-4937-9E05-6272FA7A5B43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A128BF55-2A39-4F11-9B17-15093F0FDFAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A128BF55-2A39-4F11-9B17-15093F0FDFAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A128BF55-2A39-4F11-9B17-15093F0FDFAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A128BF55-2A39-4F11-9B17-15093F0FDFAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A128BF55-2A39-4F11-9B17-15093F0FDFAC} = {12087DD0-4E09-41B2-A0B1-DFF6F8DF9920}
+		{21C928FC-8CDD-420A-8227-1383E1741B52} = {40AC710F-5FFB-4AF6-B72F-3A86F4ECC843}
+		{E40DF8BB-674D-4937-9E05-6272FA7A5B43} = {40AC710F-5FFB-4AF6-B72F-3A86F4ECC843}
 	EndGlobalSection
 EndGlobal

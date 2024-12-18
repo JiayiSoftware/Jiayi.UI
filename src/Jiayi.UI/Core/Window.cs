@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
+using Jiayi.UI.Eventing.Handlers;
 using Jiayi.UI.Render;
 using static Windows.Win32.PInvoke;
 using static Windows.Win32.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS;
 using static Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD;
 using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_EX_STYLE;
 using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_STYLE;
+using EventHandler = Jiayi.UI.Eventing.EventHandler;
 
 namespace Jiayi.UI.Core;
 
@@ -52,10 +55,15 @@ public unsafe class Window
 			}
 			
 			var t = new string(title);
-			return t.Substring(0, t.Length - 1); // remove null-terminator
+			return t[..^1]; // remove null-terminator
 		}
 		set => SetWindowText((HWND)Handle, value);
 	}
+	
+	public Color BackgroundColor { get; set; } = Color.White;
+	
+	// end of cool properties
+	private List<EventHandler> _eventHandlers = new();
 
 	public Window(string title, Vector2 size)
 	{
@@ -89,10 +97,24 @@ public unsafe class Window
 		
 		Graphics.InitializeWindow(this);
 		Application.Current.Windows.Add(Handle, this);
+		
+		// add event handlers
+		AddEventHandler<ExitHandler>();
+	}
+	
+	private void AddEventHandler<T>() where T : EventHandler, new()
+	{
+		_eventHandlers.Add(new T());
 	}
 	
 	internal bool WindowProc(uint msg, WPARAM wParam, LPARAM lParam)
 	{
+		foreach (var handler in _eventHandlers.Where(handler => handler.HandlesMessage(msg)))
+		{
+			handler.HandleMessage(this, msg, wParam, lParam);
+			return true;
+		}
+
 		return false;
 	}
 
@@ -100,5 +122,11 @@ public unsafe class Window
 	{
 		ShowWindow((HWND)Handle, SW_NORMAL);
 		UpdateWindow((HWND)Handle);
+	}
+	
+	public void Close()
+	{
+		DestroyWindow((HWND)Handle);
+		Application.Current.Windows.Remove(Handle);
 	}
 }

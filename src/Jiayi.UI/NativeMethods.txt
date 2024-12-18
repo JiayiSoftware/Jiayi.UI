@@ -30,6 +30,7 @@ SIZE_RESTORED
 // Window Message ids
 WM_ACTIVATE
 WM_CHAR
+WM_CLOSE
 WM_CREATE
 WM_DESTROY
 WM_INPUT
@@ -78,6 +79,7 @@ GetModuleHandle
 GetModuleFileName
 GetSystemMetrics
 RegisterClassEx
+UnregisterClass
 
 // Windowing
 AdjustWindowRectEx
@@ -104,7 +106,7 @@ SetWindowText
 
 // Messaging
 DispatchMessage
-PeekMessage
+GetMessage
 PostQuitMessage
 TranslateMessage
 

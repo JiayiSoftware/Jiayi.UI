@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
-using static Windows.Win32.UI.WindowsAndMessaging.PEEK_MESSAGE_REMOVE_TYPE;
 using static Windows.Win32.UI.WindowsAndMessaging.WNDCLASS_STYLES;
 
 namespace Jiayi.UI.Core;
@@ -22,7 +21,7 @@ public unsafe class Application
 	public event Action? OnStartup;
 	public event Action? OnExit;
 
-	public Application()
+	private Application()
 	{
 		#nullable disable
 		HInstance = (HINSTANCE)GetModuleHandle((string)null).DangerousGetHandle();
@@ -61,22 +60,27 @@ public unsafe class Application
 		
 		MainWindow.Show();
 		OnStartup?.Invoke();
-		
+
 		MSG msg = default;
-		while (msg.message != WM_QUIT)
+		do
 		{
-			if (PeekMessage(out msg, default, 0, 0, PM_REMOVE))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-		}
+			if (!GetMessage(out msg, default, 0, 0)) continue;
+			
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		} while (msg.message != WM_QUIT);
 		
 		OnExit?.Invoke();
 	}
 	
-	public void Exit() => PostQuitMessage(0);
-	
+	public void Exit()
+	{
+		fixed (char* className = WindowClassName) 
+			UnregisterClass(className, HInstance);
+		
+		PostQuitMessage(0);
+	}
+
 	[UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
 	private static LRESULT WindowProc(HWND hWnd, uint msg, WPARAM wParam, LPARAM lParam)
 	{
