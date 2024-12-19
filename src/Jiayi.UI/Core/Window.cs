@@ -128,7 +128,14 @@ public unsafe class Window
 	
 	public void Close()
 	{
+		var isMainWindow = IsMainWindow;
+		
 		DestroyWindow((HWND)Handle);
 		Application.Current.Windows.Remove(Handle);
+		
+		if (isMainWindow)
+		{
+			Application.Current.Exit();
+		}
 	}
 }

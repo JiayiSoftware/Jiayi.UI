@@ -5,7 +5,7 @@ namespace Jiayi.UI.Tests;
 
 public class WindowTests
 {
-	private Window _window;
+	private Window _window = null!;
 	
 	[SetUp]
 	public void Setup()
@@ -22,6 +22,10 @@ public class WindowTests
 	{
 		_window.Position = new Vector2(100, 100);
 		Assert.That(_window.Position, Is.EqualTo(new Vector2(100, 100)));
+		
+		// wait a bit and close the window
+		Thread.Sleep(200);
+		_window.Close();
 	}
 	
 	[Test]
@@ -29,6 +33,9 @@ public class WindowTests
 	{
 		_window.Size = new Vector2(400, 300);
 		Assert.That(_window.Size, Is.EqualTo(new Vector2(400, 300)));
+		
+		Thread.Sleep(200);
+		_window.Close();
 	}
 	
 	[Test]
@@ -36,6 +43,9 @@ public class WindowTests
 	{
 		_window.Title = "Hello, World!";
 		Assert.That(_window.Title, Is.EqualTo("Hello, World!"));
+		
+		Thread.Sleep(200);
+		_window.Close();
 	}
 	
 	// literally just run the window for a bit
@@ -43,5 +53,6 @@ public class WindowTests
 	public void RunWindow()
 	{
 		Thread.Sleep(5000);
+		_window.Close();
 	}
 }
