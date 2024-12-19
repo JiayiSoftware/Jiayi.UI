@@ -63,7 +63,7 @@ public unsafe class Window
 	public Color BackgroundColor { get; set; } = Color.White;
 	
 	// end of cool properties
-	private List<EventHandler> _eventHandlers = new();
+	private readonly List<EventHandler> _eventHandlers = new();
 
 	public Window(string title, Vector2 size)
 	{
@@ -81,8 +81,8 @@ public unsafe class Window
 					WS_OVERLAPPEDWINDOW,
 					CW_USEDEFAULT,
 					CW_USEDEFAULT,
-					(int)(size.X * dpi.X),
-					(int)(size.Y * dpi.Y),
+					(int)(size.X * dpi.X / 96),
+					(int)(size.Y * dpi.Y / 96),
 					HWND.Null,
 					HMENU.Null,
 					Application.Current.HInstance
@@ -100,6 +100,8 @@ public unsafe class Window
 		
 		// add event handlers
 		AddEventHandler<ExitHandler>();
+		AddEventHandler<DrawHandler>();
+		AddEventHandler<ResizeHandler>();
 	}
 	
 	private void AddEventHandler<T>() where T : EventHandler, new()

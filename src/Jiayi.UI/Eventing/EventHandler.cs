@@ -5,13 +5,13 @@ namespace Jiayi.UI.Eventing;
 
 public abstract class EventHandler
 {
-	private readonly uint[] _messages;
+	private readonly List<uint> _messages;
 
-	protected EventHandler(params uint[] messages)
+	protected EventHandler(params List<uint> messages)
 	{
 		_messages = messages;
 	}
 	
-	public bool HandlesMessage(uint message) => _messages.Any(m => m == message);
+	public bool HandlesMessage(uint message) => _messages.Contains(message);
 	public abstract void HandleMessage(Window window, uint message, WPARAM wParam, LPARAM lParam);
 }

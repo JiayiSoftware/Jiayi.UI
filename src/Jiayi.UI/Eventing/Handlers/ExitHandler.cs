@@ -8,10 +8,12 @@ public class ExitHandler() : EventHandler(WM_CLOSE)
 {
 	public override void HandleMessage(Window window, uint message, WPARAM wParam, LPARAM lParam)
 	{
+		var isMain = window.IsMainWindow;
+		
 		window.Close();
 				
 		// exit if main window is closed
-		if (window.IsMainWindow)
+		if (isMain)
 		{
 			Application.Current.Exit();
 		}

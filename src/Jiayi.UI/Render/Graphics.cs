@@ -2,11 +2,13 @@
 using System.Numerics;
 using Windows.Win32.Foundation;
 using Jiayi.UI.Core;
+using Jiayi.UI.Extensions;
 using Vortice;
 using Vortice.Direct2D1;
 using Vortice.Mathematics;
 using static Windows.Win32.PInvoke;
 using static Vortice.Direct2D1.D2D1;
+using Color = System.Drawing.Color;
 using RenderTargetProperties = Vortice.Direct2D1.RenderTargetProperties;
 using ResultCode = Vortice.Direct2D1.ResultCode;
 
@@ -75,6 +77,7 @@ public sealed class Graphics : IDisposable
 		CreateDeviceResources();
 		
 		_renderTarget!.BeginDraw();
+		_renderTarget.Transform = Matrix3x2.Identity;
 		
 		var size = _renderTarget.PixelSize;
 		DrawData.ViewportSize = new Vector2(size.Width, size.Height);
@@ -94,8 +97,20 @@ public sealed class Graphics : IDisposable
 			throw new Win32Exception(result.Code);
 		}
 	}
+	
+	public void Clear(Color color)
+	{
+		_renderTarget!.Clear(color.ToColor4());
+	}
 
-	private ID2D1SolidColorBrush GetBrush(Color4 color)
+	public void Resize(Vector2 newSize)
+	{
+		_renderTarget!.Resize(new SizeI((int)newSize.X, (int)newSize.Y));
+	}
+
+	public WindowState GetWindowState() => _renderTarget!.CheckWindowState();
+
+	private ID2D1SolidColorBrush GetBrush(Color color)
 	{
 		var hash = color.GetHashCode();
 		if (_brushes.TryGetValue(hash, out var brush))
@@ -103,23 +118,23 @@ public sealed class Graphics : IDisposable
 			return brush;
 		}
 
-		var newBrush = _renderTarget!.CreateSolidColorBrush(color);
+		var newBrush = _renderTarget!.CreateSolidColorBrush(color.ToColor4());
 		_brushes.Add(hash, newBrush);
 		return newBrush;
 	}
 
-	public void DrawRect(Vector2 pos, Vector2 size, Color4 color, float thickness)
+	public void DrawRect(Vector2 pos, Vector2 size, Color color, float thickness)
 	{
 		_renderTarget!.DrawRectangle(new RawRectF(pos.X, pos.Y, pos.X + size.X, pos.Y + size.Y), 
 			GetBrush(color), thickness);
 	}
 	
-	public void FillRect(Vector2 pos, Vector2 size, Color4 color)
+	public void FillRect(Vector2 pos, Vector2 size, Color color)
 	{
 		_renderTarget!.FillRectangle(new RawRectF(pos.X, pos.Y, pos.X + size.X, pos.Y + size.Y), GetBrush(color));
 	}
 	
-	public void DrawRoundedRect(Vector2 pos, Vector2 size, float radius, Color4 color, float thickness)
+	public void DrawRoundedRect(Vector2 pos, Vector2 size, float radius, Color color, float thickness)
 	{
 		var roundedRect = new RoundedRectangle
 		{
@@ -131,7 +146,7 @@ public sealed class Graphics : IDisposable
 		_renderTarget!.DrawRoundedRectangle(roundedRect, GetBrush(color), thickness);
 	}
 	
-	public void FillRoundedRect(Vector2 pos, Vector2 size, float radius, Color4 color)
+	public void FillRoundedRect(Vector2 pos, Vector2 size, float radius, Color color)
 	{
 		var roundedRect = new RoundedRectangle
 		{
@@ -143,17 +158,17 @@ public sealed class Graphics : IDisposable
 		_renderTarget!.FillRoundedRectangle(roundedRect, GetBrush(color));
 	}
 	
-	public void DrawLine(Vector2 start, Vector2 end, Color4 color, float thickness)
+	public void DrawLine(Vector2 start, Vector2 end, Color color, float thickness)
 	{
 		_renderTarget!.DrawLine(start, end, GetBrush(color), thickness);
 	}
 	
-	public void DrawCircle(Vector2 center, float radius, Color4 color, float thickness)
+	public void DrawCircle(Vector2 center, float radius, Color color, float thickness)
 	{
 		_renderTarget!.DrawEllipse(new Ellipse(center, radius, radius), GetBrush(color), thickness);
 	}
 	
-	public void FillCircle(Vector2 center, float radius, Color4 color)
+	public void FillCircle(Vector2 center, float radius, Color color)
 	{
 		_renderTarget!.FillEllipse(new Ellipse(center, radius, radius), GetBrush(color));
 	}
