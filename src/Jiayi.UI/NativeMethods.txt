@@ -27,6 +27,9 @@ SIZE_MAXIMIZED
 SIZE_MINIMIZED
 SIZE_RESTORED
 
+// Parameters of WM_GETMINMAXINFO window messages
+MINMAXINFO
+
 // Window Message ids
 WM_ACTIVATE
 WM_CHAR

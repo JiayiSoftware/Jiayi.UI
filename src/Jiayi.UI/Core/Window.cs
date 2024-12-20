@@ -61,6 +61,8 @@ public unsafe class Window
 	}
 	
 	public Color BackgroundColor { get; set; } = Color.White;
+	public Vector2 MinimumSize { get; set; } = new(300, 300);
+	public Vector2 MaximumSize { get; set; } = new(10000, 10000);
 	
 	// end of cool properties
 	private readonly List<EventHandler> _eventHandlers = new();
@@ -102,6 +104,7 @@ public unsafe class Window
 		AddEventHandler<ExitHandler>();
 		AddEventHandler<DrawHandler>();
 		AddEventHandler<ResizeHandler>();
+		AddEventHandler<SizeLimitsHandler>();
 	}
 	
 	private void AddEventHandler<T>() where T : EventHandler, new()
