@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
+using Jiayi.UI.Eventing.Arguments;
 using Jiayi.UI.Eventing.Handlers;
 using Jiayi.UI.Render;
 using static Windows.Win32.PInvoke;
@@ -64,7 +65,7 @@ public unsafe class Window
 	public Vector2 MinimumSize { get; set; } = new(300, 300);
 	public Vector2 MaximumSize { get; set; } = new(10000, 10000);
 	
-	// end of cool properties
+	// cool events
 	private readonly List<EventHandler> _eventHandlers = new();
 
 	public Window(string title, Vector2 size)
@@ -105,6 +106,7 @@ public unsafe class Window
 		AddEventHandler<DrawHandler>();
 		AddEventHandler<ResizeHandler>();
 		AddEventHandler<SizeLimitsHandler>();
+		AddEventHandler<KeyboardHandler>();
 	}
 	
 	private void AddEventHandler<T>() where T : EventHandler, new()
@@ -141,4 +143,10 @@ public unsafe class Window
 			Application.Current.Exit();
 		}
 	}
+	
+	// cool methods for cool inheritance
+	public virtual void Initialize() {} // implement and call this in your constructor
+	public virtual void KeyDown(KeyEventArgs e) {}	
+	public virtual void KeyUp(KeyEventArgs e) {}
+	public virtual void KeyChar(KeyCharEventArgs e) {}
 }
