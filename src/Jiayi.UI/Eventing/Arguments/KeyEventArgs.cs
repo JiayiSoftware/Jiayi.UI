@@ -7,13 +7,13 @@ namespace Jiayi.UI.Eventing.Arguments;
 public class KeyEventArgs : EventArgs
 {
 	public KeyCode KeyCode { get; }
-	public KeyModifier Modifiers { get; }
+	public KeyModifier KeyModifiers { get; }
 	public bool KeyDown { get; set; }
 	
-	public KeyEventArgs(KeyCode keyCode, KeyModifier modifiers, bool keyDown)
+	public KeyEventArgs(KeyCode keyCode, KeyModifier keyModifiers, bool keyDown)
 	{
 		KeyCode = keyCode;
-		Modifiers = modifiers;
+		KeyModifiers = keyModifiers;
 		KeyDown = keyDown;
 	}
 }

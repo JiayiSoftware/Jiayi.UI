@@ -107,6 +107,7 @@ public unsafe class Window
 		AddEventHandler<ResizeHandler>();
 		AddEventHandler<SizeLimitsHandler>();
 		AddEventHandler<KeyboardHandler>();
+		AddEventHandler<MouseHandler>();
 	}
 	
 	private void AddEventHandler<T>() where T : EventHandler, new()
@@ -146,7 +147,13 @@ public unsafe class Window
 	
 	// cool methods for cool inheritance
 	public virtual void Initialize() {} // implement and call this in your constructor
+	
 	public virtual void KeyDown(KeyEventArgs e) {}	
 	public virtual void KeyUp(KeyEventArgs e) {}
 	public virtual void KeyChar(KeyCharEventArgs e) {}
+	
+	public virtual void MouseDown(MouseButtonEventArgs e) {}
+	public virtual void MouseUp(MouseButtonEventArgs e) {}
+	public virtual void MouseMove(MouseMoveEventArgs e) {}
+	public virtual void MouseWheel(MouseWheelEventArgs e) {}
 }

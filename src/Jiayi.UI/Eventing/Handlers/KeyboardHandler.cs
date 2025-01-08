@@ -1,9 +1,6 @@
-﻿using System.Drawing;
-using System.Numerics;
-using Windows.Win32.Foundation;
+﻿using Windows.Win32.Foundation;
 using Jiayi.UI.Core;
 using Jiayi.UI.Eventing.Arguments;
-using Vortice.Direct2D1;
 using static Windows.Win32.PInvoke;
 
 namespace Jiayi.UI.Eventing.Handlers;
