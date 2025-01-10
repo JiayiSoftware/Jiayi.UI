@@ -3,6 +3,7 @@ using System.Numerics;
 using Windows.Win32.Foundation;
 using Jiayi.UI.Core;
 using Jiayi.UI.Extensions;
+using Jiayi.UI.Render.Caching;
 using Vortice;
 using Vortice.Direct2D1;
 using Vortice.Mathematics;
@@ -17,7 +18,8 @@ namespace Jiayi.UI.Render;
 public sealed class Graphics : IDisposable
 {
 	public DrawData DrawData { get; } = new();
-	
+	public FontCache FontCache { get; } = new();
+
 	// NOTE: when any of these resources get lost,
 	// the resource and anything below it must be recreated
 	// in other words, all variables are ordered by dependency
@@ -86,6 +88,7 @@ public sealed class Graphics : IDisposable
 	public void End()
 	{
 		var result = _renderTarget!.EndDraw();
+		FontCache.CleanupCache();
 		
 		if (result == ResultCode.RecreateTarget)
 		{
@@ -177,6 +180,14 @@ public sealed class Graphics : IDisposable
 	{
 		_renderTarget!.DrawBitmap(bitmap, new RawRectF(pos.X, pos.Y, pos.X + size.X, pos.Y + size.Y), 
 			opacity, BitmapInterpolationMode.Linear, null);
+	}
+
+	public void DrawText(string text, string fontFamily, Vector2 pos, Color color, float size, int weight = 400,
+		bool italic = false, Vector2? maxSize = null)
+	{
+		var maxSizeVec = maxSize ?? new Vector2(float.MaxValue, float.MaxValue);
+		var layout = FontCache.GetLayout(text, fontFamily, size, weight, italic, maxSizeVec);
+		_renderTarget!.DrawTextLayout(pos, layout, GetBrush(color));
 	}
 	
 	// dispose pattern

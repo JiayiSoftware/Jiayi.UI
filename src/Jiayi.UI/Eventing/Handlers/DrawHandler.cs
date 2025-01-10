@@ -21,6 +21,8 @@ public class DrawHandler() : EventHandler(WM_PAINT, WM_DISPLAYCHANGE)
 		window.Graphics.Clear(window.BackgroundColor);
 				
 		// draw widgets here
+		
+		//window.Graphics.DrawText("Hello, World!", "Arial", new Vector2(10, 10), Color.Black, 96);
 			
 		window.Graphics.End();
 	}
