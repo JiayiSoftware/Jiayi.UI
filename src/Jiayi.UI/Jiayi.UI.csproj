@@ -14,9 +14,5 @@
         </PackageReference>
         <PackageReference Include="Vortice.Direct2D1" Version="3.6.2" />
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Widgets\" />
-    </ItemGroup>
 
 </Project>

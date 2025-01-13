@@ -1,12 +1,10 @@
 ﻿using System.Numerics;
+using Jiayi.UI.Widgets;
 
 namespace Jiayi.UI;
 
 public class Widget
 {
-	// reference resolution for scaling position only
-	public static Vector2 ReferenceResolution { get; set; } = new Vector2(800, 600);
-	
 	// positioning and sizing stuff
 	public Vector2 Position { get; set; } // position in reference units
 	
@@ -17,16 +15,31 @@ public class Widget
 	// other things
 	public bool Visible { get; set; } = true;
 	public Widget? Parent { get; set; } // null if root
+
+	public RootWidget Root
+	{
+		get
+		{
+			// find the root widget in parent chain
+			var current = this;
+			while (current.Parent != null)
+			{
+				current = current.Parent;
+			}
+			return (RootWidget)current;
+		}
+	}
+	
 	public List<Widget> Children { get; } = new();
 	public Window Window => Parent?.Window ?? throw new InvalidOperationException("Widget is not attached to a window.");
 	
 	// empty constructor, use object initializer
 	public Widget() { }
 
-	public Vector2 GetAbsolutePosition()
+	public virtual Vector2 GetAbsolutePosition()
 	{
 		var parentPosition = Parent?.GetAbsolutePosition() ?? Vector2.Zero;
-		var scaledPosition = Position * (Window.Size / ReferenceResolution);
+		var scaledPosition = Position * (Window.Size / Root.ReferenceResolution);
 		
 		// calculate anchor
 		return Anchor switch

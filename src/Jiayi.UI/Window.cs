@@ -6,7 +6,9 @@ using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using Jiayi.UI.Eventing.Arguments;
 using Jiayi.UI.Eventing.Handlers;
+using Jiayi.UI.Interfaces;
 using Jiayi.UI.Render;
+using Jiayi.UI.Widgets;
 using static Windows.Win32.PInvoke;
 using static Windows.Win32.UI.WindowsAndMessaging.SET_WINDOW_POS_FLAGS;
 using static Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD;
@@ -16,7 +18,7 @@ using EventHandler = Jiayi.UI.Eventing.EventHandler;
 
 namespace Jiayi.UI;
 
-public unsafe class Window
+public unsafe class Window : IKeyboardListener, IMouseListener
 {
 	public nint Handle { get; }
 	public Graphics Graphics { get; } = new();
@@ -64,6 +66,16 @@ public unsafe class Window
 	public Color BackgroundColor { get; set; } = Color.White;
 	public Vector2 MinimumSize { get; set; } = new(300, 300);
 	public Vector2 MaximumSize { get; set; } = new(10000, 10000);
+	public RootWidget RootWidget { get; }
+	public List<Widget> Children
+	{
+		get => RootWidget.Children;
+		set
+		{
+			RootWidget.Children.Clear();
+			RootWidget.Children.AddRange(value);
+		}
+	}
 	
 	// cool events
 	private readonly List<EventHandler> _eventHandlers = new();
@@ -72,6 +84,14 @@ public unsafe class Window
 	{
 		var dpi = Graphics.DrawData.Dpi;
 
+		// add event handlers
+		AddEventHandler<ExitHandler>();
+		AddEventHandler<DrawHandler>();
+		AddEventHandler<ResizeHandler>();
+		AddEventHandler<SizeLimitsHandler>();
+		AddEventHandler<KeyboardHandler>();
+		AddEventHandler<MouseHandler>();
+		
 		fixed (char* className = Application.Current.WindowClassName)
 		{
 			// stupid
@@ -97,17 +117,11 @@ public unsafe class Window
 		{
 			throw new Win32Exception(Marshal.GetLastWin32Error());
 		}
-		
+
 		Graphics.InitializeWindow(this);
-		Application.Current.Windows.Add(Handle, this);
+		RootWidget = new RootWidget(size);
 		
-		// add event handlers
-		AddEventHandler<ExitHandler>();
-		AddEventHandler<DrawHandler>();
-		AddEventHandler<ResizeHandler>();
-		AddEventHandler<SizeLimitsHandler>();
-		AddEventHandler<KeyboardHandler>();
-		AddEventHandler<MouseHandler>();
+		Application.Current.Windows.Add(Handle, this);
 	}
 	
 	private void AddEventHandler<T>() where T : EventHandler, new()
@@ -147,13 +161,39 @@ public unsafe class Window
 	
 	// cool methods for cool inheritance
 	public virtual void Initialize() {} // implement and call this in your constructor
+
+	public virtual void KeyDown(KeyEventArgs e)
+	{
+		RootWidget.KeyDown(e);
+	}
 	
-	public virtual void KeyDown(KeyEventArgs e) {}	
-	public virtual void KeyUp(KeyEventArgs e) {}
-	public virtual void KeyChar(KeyCharEventArgs e) {}
+	public virtual void KeyUp(KeyEventArgs e)
+	{
+		RootWidget.KeyUp(e);
+	}
 	
-	public virtual void MouseDown(MouseButtonEventArgs e) {}
-	public virtual void MouseUp(MouseButtonEventArgs e) {}
-	public virtual void MouseMove(MouseMoveEventArgs e) {}
-	public virtual void MouseWheel(MouseWheelEventArgs e) {}
+	public virtual void KeyChar(KeyCharEventArgs e)
+	{
+		RootWidget.KeyChar(e);
+	}
+	
+	public virtual void MouseDown(MouseButtonEventArgs e)
+	{
+		RootWidget.MouseDown(e);
+	}
+	
+	public virtual void MouseUp(MouseButtonEventArgs e)
+	{
+		RootWidget.MouseUp(e);
+	}
+	
+	public virtual void MouseMove(MouseMoveEventArgs e)
+	{
+		RootWidget.MouseMove(e);
+	}
+	
+	public virtual void MouseWheel(MouseWheelEventArgs e)
+	{
+		RootWidget.MouseWheel(e);
+	}
 }
