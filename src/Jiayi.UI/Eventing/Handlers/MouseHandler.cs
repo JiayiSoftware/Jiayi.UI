@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Windows.Win32.Foundation;
-using Jiayi.UI.Core;
 using Jiayi.UI.Eventing.Arguments;
 using static Windows.Win32.PInvoke;
 

@@ -1,4 +1,4 @@
-﻿namespace Jiayi.UI.Core;
+﻿namespace Jiayi.UI;
 
 [Flags]
 public enum KeyModifier : uint

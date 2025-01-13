@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Jiayi.UI.Core;
 using static Windows.Win32.PInvoke;
 
 namespace Jiayi.UI.Eventing.Handlers;

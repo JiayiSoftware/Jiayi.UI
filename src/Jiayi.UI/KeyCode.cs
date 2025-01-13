@@ -1,4 +1,4 @@
-﻿namespace Jiayi.UI.Core;
+﻿namespace Jiayi.UI;
 
 // meant to mirror win32 virtual key codes... so some of these are not used
 public enum KeyCode : byte

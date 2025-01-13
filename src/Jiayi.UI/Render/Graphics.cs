@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Numerics;
 using Windows.Win32.Foundation;
-using Jiayi.UI.Core;
 using Jiayi.UI.Extensions;
 using Jiayi.UI.Render.Caching;
 using Vortice;

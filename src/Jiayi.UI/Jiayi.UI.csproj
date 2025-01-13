@@ -16,7 +16,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Render\Widgets\" />
+      <Folder Include="Widgets\" />
     </ItemGroup>
 
 </Project>

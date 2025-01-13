@@ -6,7 +6,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
 using static Windows.Win32.UI.WindowsAndMessaging.WNDCLASS_STYLES;
 
-namespace Jiayi.UI.Core;
+namespace Jiayi.UI;
 
 public unsafe class Application
 {

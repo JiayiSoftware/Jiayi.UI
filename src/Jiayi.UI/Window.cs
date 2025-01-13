@@ -14,7 +14,7 @@ using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_EX_STYLE;
 using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_STYLE;
 using EventHandler = Jiayi.UI.Eventing.EventHandler;
 
-namespace Jiayi.UI.Core;
+namespace Jiayi.UI;
 
 public unsafe class Window
 {
