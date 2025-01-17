@@ -119,7 +119,7 @@ public unsafe class Window : IKeyboardListener, IMouseListener
 		}
 
 		Graphics.InitializeWindow(this);
-		RootWidget = new RootWidget(size);
+		RootWidget = new RootWidget(this);
 		
 		Application.Current.Windows.Add(Handle, this);
 	}

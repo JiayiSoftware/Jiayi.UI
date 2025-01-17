@@ -60,6 +60,12 @@ public unsafe class Application
 		
 		MainWindow.Show();
 		OnStartup?.Invoke();
+		
+		// call initialize on all windows
+		foreach (var window in Windows.Values)
+		{
+			window.Initialize();
+		}
 
 		MSG msg = default;
 		do

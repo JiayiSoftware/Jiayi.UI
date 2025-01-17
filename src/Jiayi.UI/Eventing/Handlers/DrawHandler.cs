@@ -19,7 +19,7 @@ public class DrawHandler() : EventHandler(WM_PAINT, WM_DISPLAYCHANGE)
 		window.Graphics.Begin();
 		window.Graphics.Clear(window.BackgroundColor);
 				
-		// draw widgets here
+		window.RootWidget.Render(window.Graphics);
 			
 		window.Graphics.End();
 	}

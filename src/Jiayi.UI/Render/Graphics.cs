@@ -189,6 +189,14 @@ public sealed class Graphics : IDisposable
 		_renderTarget!.DrawTextLayout(pos, layout, GetBrush(color));
 	}
 	
+	public Vector2 MeasureText(string text, string fontFamily, float size, int weight = 400, bool italic = false,
+		Vector2? maxSize = null)
+	{
+		var maxSizeVec = maxSize ?? new Vector2(float.MaxValue, float.MaxValue);
+		var layout = FontCache.GetLayout(text, fontFamily, size, weight, italic, maxSizeVec);
+		return new Vector2(layout.Metrics.Width, layout.Metrics.Height);
+	}
+	
 	// dispose pattern
 	private bool _disposed;
 

@@ -1,17 +1,18 @@
 ﻿using System.Numerics;
 using Jiayi.UI.Eventing.Arguments;
 using Jiayi.UI.Interfaces;
+using Jiayi.UI.Render;
 
 namespace Jiayi.UI.Widgets;
 
 public class RootWidget : Widget, IKeyboardListener, IMouseListener
 {
-	public Vector2 ReferenceResolution { get; set; }
-	
-	// by default, reference resolution is the initial window size
-	public RootWidget(Vector2 referenceResolution)
+	public override Window Window => _window;
+	private Window _window;
+
+	public RootWidget(Window window)
 	{
-		ReferenceResolution = referenceResolution;
+		_window = window;
 	}
 	
 	public override Vector2 GetAbsolutePosition() => Vector2.Zero;
@@ -77,5 +78,12 @@ public class RootWidget : Widget, IKeyboardListener, IMouseListener
 			if (child is not IMouseListener listener) continue;
 			listener.MouseWheel(e);
 		}
+	}
+
+	public override void Render(Graphics g)
+	{
+		// TODO: size should be in DIPs
+		Size = _window.Size;
+		base.Render(g);
 	}
 }
