@@ -22,5 +22,8 @@ public class Label : Widget
 		}
 		
 		g.DrawText(Text, FontName, GetAbsolutePosition(), TextColor, FontSize, FontWeight, Italic, Size);
+		
+		// debug
+		g.DrawRect(GetAbsolutePosition(), Size, Color.Red, 5);
 	}
 }

@@ -194,7 +194,7 @@ public sealed class Graphics : IDisposable
 	{
 		var maxSizeVec = maxSize ?? new Vector2(float.MaxValue, float.MaxValue);
 		var layout = FontCache.GetLayout(text, fontFamily, size, weight, italic, maxSizeVec);
-		return new Vector2(layout.Metrics.Width, layout.Metrics.Height);
+		return new Vector2(layout.Metrics.WidthIncludingTrailingWhitespace, layout.Metrics.Height);
 	}
 	
 	// dispose pattern

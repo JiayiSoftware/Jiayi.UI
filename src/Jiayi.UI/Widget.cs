@@ -43,38 +43,20 @@ public class Widget
 		var absolutePosition = parentPosition + Position;
 		
 		// calculate anchor
-		return Anchor switch
+		switch (Anchor)
 		{
-			Anchor.TopLeft =>
+			case Anchor.TopLeft:
 				// normal coordinates
-				absolutePosition,
-			Anchor.TopCenter =>
+				return absolutePosition;
+			case Anchor.TopCenter:
 				// x is centered
-				absolutePosition + new Vector2((Parent!.Size.X - Size.X) / 2, 0),
-			Anchor.TopRight =>
-				// x is flipped; positive x is left
-				// the x value in absolutePosition can be made negative to make this easier
-				new Vector2(-absolutePosition.X + Parent!.Size.X - Size.X, absolutePosition.Y),
-			Anchor.MiddleLeft =>
-				// y is centered
-				absolutePosition + new Vector2(0, (Parent!.Size.Y - Size.Y) / 2),
-			Anchor.MiddleCenter =>
-				// both x and y are centered
-				absolutePosition + (Parent!.Size - Size) / 2,
-			Anchor.MiddleRight =>
-				// x is flipped; positive x is left, y is centered
-				new Vector2(-absolutePosition.X + Parent!.Size.X - Size.X, absolutePosition.Y + (Parent!.Size.Y - Size.Y) / 2),
-			Anchor.BottomLeft =>
-				// y is flipped; positive y is up
-				new Vector2(absolutePosition.X, -absolutePosition.Y + Parent!.Size.Y - Size.Y),
-			Anchor.BottomCenter =>
-				// x is centered, y is flipped; positive y is up
-				new Vector2(absolutePosition.X + (Parent!.Size.X - Size.X) / 2, -absolutePosition.Y + Parent!.Size.Y - Size.Y),
-			Anchor.BottomRight =>
-				// x is flipped; positive x is left, y is flipped; positive y is up
-				-absolutePosition + Parent!.Size - Size,
-			_ => throw new ArgumentOutOfRangeException()
-		};
+				return absolutePosition + new Vector2((Parent!.Size.X - Size.X) / 2, 0);
+			case Anchor.TopRight:
+				// x is right-aligned
+				return absolutePosition + new Vector2(Parent!.Size.X - Size.X, 0);
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
 	}
 
 	public virtual void Render(Graphics g)
