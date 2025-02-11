@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    window root element 
+    title and size are required attributes; they're passed to the window constructor
+    you can also customize position in xml, and other properties in css
+    this file and all other .xml files are transformed into C# code by a source generator
+    the class name is taken from the file name and the class itself is partial
+-->
+<window title="MarkupApp" size="800, 600">
+    <!--
+        stack panel is a container that stacks its children vertically or horizontally
+        orientation is a required attribute, can be "vertical" or "horizontal"
+        add "reverse" to reverse the order of children
+    -->
+    <stackpanel orientation="vertical">
+        <!--
+            label is a text element
+            text is a required attribute
+            you can customize most things as you would in css
+        -->
+        <label text="Hello, MarkupApp!"/>
+        
+        <!--
+            button is a clickable element
+            text is a required attribute, and click is a required event
+            like label, you can customize most things as you would in css
+        -->
+        <button text="Click me!" click="OnButtonClick"/>
+    </stackpanel>
+</window>

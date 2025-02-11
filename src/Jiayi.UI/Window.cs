@@ -20,7 +20,7 @@ namespace Jiayi.UI;
 
 public unsafe class Window : IKeyboardListener, IMouseListener
 {
-	public nint Handle { get; }
+	public nint Handle { get; set; }
 	public Graphics Graphics { get; } = new();
 	public bool IsMainWindow => Application.Current.MainWindow == this;
 	
@@ -66,7 +66,9 @@ public unsafe class Window : IKeyboardListener, IMouseListener
 	public Color BackgroundColor { get; set; } = Color.White;
 	public Vector2 MinimumSize { get; set; } = new(300, 300);
 	public Vector2 MaximumSize { get; set; } = new(10000, 10000);
-	public RootWidget RootWidget { get; }
+	
+	public RootWidget RootWidget { get; private set; } = null!;
+
 	public List<Widget> Children
 	{
 		get => RootWidget.Children;
@@ -82,8 +84,6 @@ public unsafe class Window : IKeyboardListener, IMouseListener
 
 	public Window(string title, Vector2 size)
 	{
-		var dpi = Graphics.DrawData.Dpi;
-
 		// add event handlers
 		AddEventHandler<ExitHandler>();
 		AddEventHandler<DrawHandler>();
@@ -91,6 +91,32 @@ public unsafe class Window : IKeyboardListener, IMouseListener
 		AddEventHandler<SizeLimitsHandler>();
 		AddEventHandler<KeyboardHandler>();
 		AddEventHandler<MouseHandler>();
+		
+		// default position
+		var position = new Vector2(CW_USEDEFAULT, CW_USEDEFAULT);
+		
+		FinishInitialize(title, position, size);
+	}
+	
+	// constructor for custom position
+	public Window(string title, Vector2 position, Vector2 size)
+	{
+		// add event handlers
+		AddEventHandler<ExitHandler>();
+		AddEventHandler<DrawHandler>();
+		AddEventHandler<ResizeHandler>();
+		AddEventHandler<SizeLimitsHandler>();
+		AddEventHandler<KeyboardHandler>();
+		AddEventHandler<MouseHandler>();
+		
+		FinishInitialize(title, position, size);
+	}
+
+	private void FinishInitialize(string title, Vector2 position, Vector2 size)
+	{
+		var dpi = Graphics.DrawData.Dpi;
+		var scaledPosition = position.X == CW_USEDEFAULT ? position : position * dpi / 96;
+		var scaledSize = size * dpi / 96;
 		
 		fixed (char* className = Application.Current.WindowClassName)
 		{
@@ -102,10 +128,10 @@ public unsafe class Window : IKeyboardListener, IMouseListener
 					className,
 					windowTitle, 
 					WS_OVERLAPPEDWINDOW,
-					CW_USEDEFAULT,
-					CW_USEDEFAULT,
-					(int)(size.X * dpi.X / 96),
-					(int)(size.Y * dpi.Y / 96),
+					(int)scaledPosition.X,
+					(int)scaledPosition.Y,
+					(int)scaledSize.X,
+					(int)scaledSize.Y,
 					HWND.Null,
 					HMENU.Null,
 					Application.Current.HInstance
@@ -123,7 +149,7 @@ public unsafe class Window : IKeyboardListener, IMouseListener
 		
 		Application.Current.Windows.Add(Handle, this);
 	}
-	
+
 	private void AddEventHandler<T>() where T : EventHandler, new()
 	{
 		_eventHandlers.Add(new T());

@@ -1,0 +1,26 @@
+﻿/* 
+    all styles in this file will be applied to MainWindow only
+    see global.css for global styles
+*/
+
+window {
+    max-width: 800px;
+    max-height: 600px;
+    background-color: #f0f0f0;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Arial;
+    color: #000;
+}
+
+button {
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px 10px;
+}

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PublishAot>true</PublishAot>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="MainWindow.css">
+        <DependentUpon>MainWindow.xml</DependentUpon>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="MainWindow.cs">
+        <DependentUpon>MainWindow.xml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Jiayi.UI\Jiayi.UI.csproj" />
+    </ItemGroup>
+
+</Project>
