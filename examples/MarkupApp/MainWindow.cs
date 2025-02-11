@@ -2,43 +2,44 @@
 using System.Numerics;
 using Jiayi.UI;
 using Jiayi.UI.Widgets;
+using SharpGen.Runtime;
 
 namespace MarkupApp;
 
 // imagine all of this came from a source generator
-// xml attributes translate to constructor parameters in C#
-public partial class MainWindow() : Window("Markup App", new Vector2(800, 600))
+public partial class MainWindow : Window
 {
+	// xml attributes translate to constructor parameters in C#
+	public MainWindow() : base("Markup App", new Vector2(800, 600))
+	{
+	}
+
 	// css properties are set in Initialize
 	public override void Initialize()
 	{
-		BackgroundColor = GetCssProperties().GetColor("background-color", Color.White);
-		MinimumSize = GetCssProperties().GetVector2("min-size", new Vector2(300, 300));
-		MaximumSize = GetCssProperties().GetVector2("max-size", new Vector2(10000, 10000));
+		MinimumSize = new Vector2(800, 600); // from min-width and min-height
+		BackgroundColor = Color.FromArgb(0, 240, 240, 240); // from background-color
 		
 		// child elements are added in Initialize; no content can be added inside an xml element
 		Children =
 		[
+			// xml attributes translate to constructor parameters here as well
 			new StackPanel(Orientation.Vertical)
 			{
 				Children =
 				[
 					new Label("Hello, world!")
 					{
-						FontSize = GetCssProperties().GetAbsolute("font-size", 24),
-						FontWeight = GetCssProperties().GetNumber("font-weight", 400),
-						FontFamily = GetCssProperties().GetString("font-family", "Segoe UI"),
-						TextColor = GetCssProperties().GetColor("color", Color.Black)
+						FontSize = 16, // maybe convert to pt if user uses pixels?
+						FontWeight = 600,
+						FontFamily = "Arial",
+						Color = Color.FromArgb(0, 0, 0)
 					},
 					new Button("Click me!", OnButtonClick)
 					{
-						FontSize = GetCssProperties().GetAbsolute("font-size", 16),
-						FontWeight = GetCssProperties().GetNumber("font-weight", 400),
-						BackgroundColor = GetCssProperties().GetColor("background-color", Color.White),
-						BorderColor = GetCssProperties().GetColor("border-color", Color.Black),
-						BorderWidth = GetCssProperties().GetAbsolute("border-width", 1),
-						BorderRadius = GetCssProperties().GetAbsolute("border-radius", 0),
-						Padding = GetCssProperties().GetVector4("padding", new Vector4(8, 4, 8, 4))
+						FontSize = 16,
+						FontWeight = 600,
+						Padding = new Vector4(5, 10, 5, 10)
 					}
 				]
 			}
